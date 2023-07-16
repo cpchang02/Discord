@@ -9,6 +9,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import {useChatContext} from 'stream-chat-expo'
 import { useAuthContext } from "../contexts/AuthContext";
+
 const SignUpScreen = () => {
   const [username, setUsername] = useState("username");
   const [name, setName] = useState("Name");
@@ -22,19 +23,21 @@ const SignUpScreen = () => {
     await client.connectUser(
       {
       id: username,
-      name: name,
-      image: 
-        "https://www.istockphoto.com/photo/silly-fisheye-woman-with-giant-smile-gm174791372-21983569",
+      name: name
       }, 
+      
     client.devToken(username)
+
     );
+    
     setUserId(username);
   };
   const signUp = () => {
     //navigate to the home page
-    console.warn("Signing up: ", username);
+    console.warn("Signing in: ", username);
     connectUser();
   };
+
 
   return (
     <SafeAreaView style={styles.container}>

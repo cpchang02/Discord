@@ -1,44 +1,37 @@
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Text } from 'react-native';
 import useCachedResources from './src/hooks/useCachedResources';
-import useColorScheme from './src/hooks/useColorScheme';
 import Navigation from './src/navigation';
-
 import {StreamChat} from 'stream-chat';
 import { useEffect, useState } from 'react';
-import {
-  OverlayProvider, 
-  Chat, 
-  ChannelList, 
-  Channel, 
-  MessageList,
-  MessageInput} from "stream-chat-expo";
+import { OverlayProvider, Chat, Theme, DeepPartial} from "stream-chat-expo";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-//import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AuthContext from './src/contexts/AuthContext';
+import { StreamColors } from './src/constants/Colors';
 
 const API_KEY = "65vsq6nxx8w5";
 const client = StreamChat.getInstance(API_KEY)
 
+const theme: DeepPartial<Theme> = {
+  colors: StreamColors
+};
 export default function App() {
   const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
-  const [selectedChannel, setSelectedChannel] = useState(null);
+
   
   useEffect(()=>{
     //component mounts
     return () =>{
       //when component unmounts
       client.disconnectUser();
+      console.log("creating new user");
+
     };
 
   }, []);
  
-  const onChannelSelect = (channel) =>{
-    setSelectedChannel(channel);
-  };
+
 
   if (!isLoadingComplete){
     return null;
@@ -48,25 +41,9 @@ export default function App() {
     
     <SafeAreaProvider>
       <AuthContext>
-      <OverlayProvider>
+      <OverlayProvider value = {{style:theme}}>
         <Chat client={client}>
-          <Navigation colorScheme={colorScheme} /> 
-          {/* if a channel is selected, change to the channel screen */}
-          {/* {!selectedChannel ? (
-          <ChannelList onSelect = {onChannelSelect} />
-          ) : (
-            <>
-              <Channel channel = {selectedChannel}>
-                <Text 
-                  style = {{margin: 50}}
-                  onPress = {() => setSelectedChannel(null)}>
-                Go Back
-                </Text>
-                <MessageList />
-                <MessageInput />
-              </Channel>
-            </>
-            )} */}
+          <Navigation colorScheme={"dark"} /> 
         </Chat>
       </OverlayProvider>
       </AuthContext>
