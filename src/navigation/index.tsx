@@ -9,7 +9,7 @@ import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
+import TabOneScreen from '../screens/newChannelScreen';
 import TabTwoScreen from '../screens/ChannelScreen2';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../../types';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -38,13 +38,11 @@ function RootNavigator() {
 
   return (
     <Stack.Navigator>
-        {!userId ?(<Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ headerShown: false }} 
-      />) : (
-      <>
+     
       <Stack.Screen name="Root" component={DrawerNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      </>
-      )}
+      
+    
 
     </Stack.Navigator>
   );

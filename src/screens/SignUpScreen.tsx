@@ -8,8 +8,8 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {useChatContext} from 'stream-chat-expo'
-import { useAuthContext } from "../contexts/AuthContext";
-
+import { useAuthContext, } from "../contexts/AuthContext";
+import { Auth } from "aws-amplify";
 const SignUpScreen = () => {
   const [username, setUsername] = useState("username");
   const [name, setName] = useState("Name");
@@ -19,22 +19,16 @@ const SignUpScreen = () => {
   const {client} = useChatContext();
 
   const connectUser = async()=>{
+    const userData = await Auth.currentAuthenticatedUser();
     //sign in with backend and get the user token
-    await client.connectUser(
-      {
-      id: username,
-      name: name
-      }, 
-      
-    client.devToken(username)
-
-    );
+   
     
     setUserId(username);
   };
   const signUp = () => {
     //navigate to the home page
     console.warn("Signing in: ", username);
+    console.log("current user 1", username);
     connectUser();
   };
 

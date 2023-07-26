@@ -9,6 +9,14 @@ import { OverlayProvider, Chat, Theme, DeepPartial} from "stream-chat-expo";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AuthContext from './src/contexts/AuthContext';
 import { StreamColors } from './src/constants/Colors';
+import {Amplify} from "aws-amplify";
+import awsconfig from './src/aws-exports';
+import {
+  withAuthenticator, Auth
+} from '@aws-amplify/ui-react-native';
+
+
+Amplify.configure(awsconfig);
 
 const API_KEY = "65vsq6nxx8w5";
 const client = StreamChat.getInstance(API_KEY)
@@ -16,19 +24,22 @@ const client = StreamChat.getInstance(API_KEY)
 const theme: DeepPartial<Theme> = {
   colors: StreamColors
 };
-export default function App() {
-  const isLoadingComplete = useCachedResources();
 
+function App() {
+  const isLoadingComplete = useCachedResources();
   
+  const fetchUser = async() => {
+    const userDat = await Auth.currentAuthenticatedUser();
+    console.log(userData);
+  }
   useEffect(()=>{
     //component mounts
     return () =>{
       //when component unmounts
+      console.log(client.user);
       client.disconnectUser();
-      console.log("creating new user");
 
     };
-
   }, []);
  
 
@@ -40,7 +51,7 @@ export default function App() {
     ( 
     
     <SafeAreaProvider>
-      <AuthContext>
+      <AuthContext client = {client}>
       <OverlayProvider value = {{style:theme}}>
         <Chat client={client}>
           <Navigation colorScheme={"dark"} /> 
@@ -53,3 +64,4 @@ export default function App() {
     )}</GestureHandlerRootView>;
   }
 }
+export default withAuthenticator(App);

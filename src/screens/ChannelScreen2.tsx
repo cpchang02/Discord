@@ -1,13 +1,14 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from 'react';
 import { Image } from "react-native";
+import { User } from "stream-chat-expo";
   
 const ChannelScreen2 = ({ channel }) => {
   if (!channel) {
     return null; // Render nothing if no channel is selected
   }
-
   const avatarURL = channel.data?.image; // Get the avatar URL from the channel object
+  console.log(channel.data.set);
   return (
   
     <View>
@@ -15,7 +16,8 @@ const ChannelScreen2 = ({ channel }) => {
       {avatarURL && <Image source={{ uri: avatarURL }} style={styles.avatar} />}
       </View>
       <View>
-        <Text style = {styles.header}> {channel.data.name}</Text>
+        <Text style = {styles.header}> {channel.data.set.parentName}</Text>
+        
 
       </View>
     </View>

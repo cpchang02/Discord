@@ -10,19 +10,26 @@ const ChannelScreen = () =>{
     const navigation = useNavigation();
     const channel  = route.params?.channel;
 
-    navigation.setOptions({title: channel?.data?.name||"Channel" });
+
+    navigation.setOptions({title: channel?.data?.set?.name||"Channel" });
 
     if(!channel){
+
         return (
         <View >
             <Text style = {styles.errorText}>Select a channel</Text>
+
         </View>
         );
     }
+    console.log("channel parent", channel.data?.set?.parentName);
+    console.log("channel cid", channel.data.cid);
+    console.log("channel name", channel.data?.set?.name);
+    console.log("channel type", channel.type);
     return(
         <View style = {styles.testing}>
             <Channel channel = {channel} 
-            key = {channel.data.name}
+            key = {channel.data.id}
             forceAlignMessages= "left">
             <MessageList />
             <MessageInput />

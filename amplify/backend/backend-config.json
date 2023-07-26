@@ -1,0 +1,96 @@
+{
+  "api": {
+    "discord": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "Discord"
+        }
+      ],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authDiscord"
+            }
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  },
+  "auth": {
+    "Discord": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "function": {
+    "getStreamToken": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_getStreamToken_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getStreamToken"
+        }
+      ]
+    },
+    "AMPLIFY_function_getStreamToken_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getStreamToken"
+        }
+      ]
+    },
+    "AMPLIFY_function_getStreamToken_streamKey": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getStreamToken"
+        }
+      ]
+    },
+    "AMPLIFY_function_getStreamToken_streamSecret": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getStreamToken"
+        }
+      ]
+    }
+  }
+}
