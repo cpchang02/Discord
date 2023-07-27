@@ -1,16 +1,11 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Avatar, useChatContext } from 'stream-chat-expo';
 
-const CustomChannelPreview = ({ channel }) => {
+const ChannelListItem = ({ channel }) => {
   const navigation = useNavigation();
-
-  const channelName = channel?.data?.subChannelName || 'Unnamed Channel';
-  const lastMessage = channel.state.messages[0];
-  const lastMessageText = lastMessage?.text || 'No messages yet';
-  const avatar = channel?.data?.image;
-
+  console.log(channel);
+  const channelName = channel?.data?.set?.name || 'Unnamed Channel';
   const handleChannelPress = () => {
     navigation.navigate('ChannelScreen', { channel });
   };
@@ -18,10 +13,8 @@ const CustomChannelPreview = ({ channel }) => {
   return (
     <TouchableOpacity onPress={handleChannelPress}>
       <View style={styles.channelItem}>
-        <Avatar image={avatar} size={50} />
         <View style={styles.channelDetails}>
           <Text style={styles.channelName}>{channelName}</Text>
-          <Text style={styles.lastMessage}>{lastMessageText}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -50,4 +43,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomChannelPreview;
+export default ChannelListItem;

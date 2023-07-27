@@ -54,20 +54,15 @@ const NewChannelScreen = () => {
 
    
 
-    console.log("test members", members);
-    console.log("test members", members);
-    const channel = client.channel('team', channelName);
+  console.log("test members", members);
+  console.log("test members", members);
+  const channel = client.channel('team', channelName ,{parent:"temp", subChannelName: "temp"});
    
   await channel.create();
 
   await channel.addMembers(members);
 
-    
-
-    
-  await channel.update({ set: { parent: channel.cid, name: "general" , parentName: channelName} });
-
-  console.log("channel cid", channel.data.cid);
+  await channel.update({ parent: channel.cid, subChannelName: "general"} );
 
   navigation.navigate('ChannelScreen', { channel });
 

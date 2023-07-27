@@ -26,14 +26,14 @@ const UserListScreen = () => {
       members: [userId, user.id],
     });
     await channel.create();
-    await channel.update({ set: { name: user.name} });
+    await channel.update({subChannelName: user.name });
     navigation.navigate('ChannelScreen', { channel });
     
   };
 
   // Filter users based on the search query
   const filteredUsers = users.filter((user) => {
-    if (user.name) {
+    if (user.id !== userId && user.name) {
       return user.name.toLowerCase().includes(searchQuery.toLowerCase());
     }
     return false;

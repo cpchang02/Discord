@@ -15,6 +15,7 @@ import Button from '../components/Button';
 import DMListScreen from '../screens/DMListScreen';
 import UserListScreen from '../screens/UserListScreen';
 import newChannelScreen from '../screens/newChannelScreen';
+import SubChannelCreationScreen from '../screens/SubChannelCreationScreen';
 const DrawerNavigator = () => {
     return(
         <Drawer.Navigator 
@@ -34,6 +35,11 @@ const DrawerNavigator = () => {
             component = {UserListScreen}
             options = {{title: UserListScreen}}
             
+          />
+           <Drawer.Screen
+            name = "SubChannelCreationScreen"
+            component = {SubChannelCreationScreen}
+            options = {{title: "SubChannelCreationScreen"}}
           />
 
 <Drawer.Screen

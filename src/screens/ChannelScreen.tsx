@@ -1,9 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from 'react';
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { Channel, MessageList, MessageInput, ChannelAvatarWithContext } from "stream-chat-expo";
-import ChannelScreen2 from "./ChannelScreen2";
-import Colors, { StreamColors } from "../constants/Colors";
+import { Channel, MessageList, MessageInput} from "stream-chat-expo";
 const ChannelScreen = () =>{
 
     const route = useRoute();
@@ -11,7 +9,7 @@ const ChannelScreen = () =>{
     const channel  = route.params?.channel;
 
 
-    navigation.setOptions({title: channel?.data?.set?.name||"Channel" });
+    navigation.setOptions({title: channel?.data?.subChannelName||"Channel" });
 
     if(!channel){
 
@@ -22,9 +20,10 @@ const ChannelScreen = () =>{
         </View>
         );
     }
-    console.log("channel parent", channel.data?.set?.parentName);
+    console.log( "current channel data");
+    console.log("channel parent", channel.data?.parent);
     console.log("channel cid", channel.data.cid);
-    console.log("channel name", channel.data?.set?.name);
+    console.log("channel name", channel.data.subChannelName);
     console.log("channel type", channel.type);
     return(
         <View style = {styles.testing}>
