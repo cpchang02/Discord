@@ -1,77 +1,73 @@
+//react imports:
 import React, { useState, useEffect } from 'react';
+
+//react-native imports:
 import { View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { useChatContext } from 'stream-chat-expo';
-import { useAuthContext } from '../contexts/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 
+//stream-chat exports:
+import { useChatContext } from 'stream-chat-expo';
+
+//AWS imports:
+import { useAuthContext } from '../contexts/AuthContext';
+
+//new channel creation scren
 const NewChannelScreen = () => {
+  //stream client and AWS userId hooks
   const { client } = useChatContext();
-  const [users, setUsers] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const { userId } = useAuthContext(); // Get the user data from the context
+
+
+  const [users, setUsers] = useState([]); //empty state to store queried users
+  const [searchQuery, setSearchQuery] = useState(''); //empty state for search query
   const [selectedUsers, setSelectedUsers] = useState([]); // State to store selected users
   const [channelName, setChannelName] = useState(''); // State to store channel name
   const navigation = useNavigation();
 
+
   const fetchUsers = async () => {
+    //query all users 
+    //TODO: only query friends?
     const response = await client.queryUsers({});
     setUsers(response.users);
   };
 
-  const { userId } = useAuthContext(); // Get the user data from the context
-
+//feth the users
   useEffect(() => {
     fetchUsers();
-    // Initialize the selectedUsers state with the current user's name
-     // Initialize the selectedUsers state with the current user's data
-   
-      //setSelectedUsers([currentUser]);
-      console.log("current user", userId);
-    
   },[userId]);
 
-  useEffect(() => {
-  }, [selectedUsers]);
-  
-
-   const toggleUserSelection = (user) => {
-  
-
-    // Check if the user is already selected and toggle the selection
+  const toggleUserSelection = (user) => {
+  // Check if the user is already selected and toggle the selection
     setSelectedUsers((prevSelectedUsers) =>
-      prevSelectedUsers.includes(user)
-        ? prevSelectedUsers.filter((selectedUser) => selectedUser !== user)
-        : [...prevSelectedUsers, user]
+    prevSelectedUsers.includes(user)
+    ? prevSelectedUsers.filter((selectedUser) => selectedUser !== user)
+    : [...prevSelectedUsers, user]
     );
   };
 
+  //create channel button
   const startChannelWithSelectedUsers = async () => {
-   
-
-    // Create a new channel with the selected users as members and the channel name as extraData
+    //set members
     const members = selectedUsers.map((user) => user.id);
     // Add the current user's id to the members array
     members.push(userId);
-
-   
-
-  console.log("test members", members);
-  console.log("test members", members);
-  const channel = client.channel('team', channelName ,{parent:"temp", subChannelName: "temp"});
-   
-  await channel.create();
-
-  await channel.addMembers(members);
-
-  await channel.update({ parent: channel.cid, subChannelName: "general"} );
-
-  navigation.navigate('ChannelScreen', { channel });
-
-  
+    console.log("members:", members);
+    //create channel of type team with channelName, parent and subChannelName general
+    const channel = client.channel('team', channelName, {parent:"temp", subChannelName: "general"});
+    await channel.create();
+    //add the selected members
+    await channel.addMembers(members);
+    //update the channels parent to be its cid
+    await channel.update({ parent: channel.cid, subChannelName: "general"} );
+    //navigate to the channel screen for general
+    navigation.navigate("ChannelScreen", {channel});    
     // Reset the state variables
     setSelectedUsers([]);
     setChannelName('');
     setSearchQuery('');
   };
+
   // Filter users based on the search query
   const filteredUsers = users.filter((user) =>
     user.name &&
@@ -81,8 +77,18 @@ const NewChannelScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Section to display selected users */}
-      <View style={styles.selectedUsersContainer}>
+     
+
+      {/* Input field for channel name */}
+      <Text style = {styles.header}>Channel Name:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Channel Name"
+        value={channelName}
+        onChangeText={setChannelName}
+      />
+       {/* Section to display selected users */}
+       <View style={styles.selectedUsersContainer}>
         <Text style={styles.selectedUsersText}>Selected Users:</Text>
         <FlatList
           horizontal
@@ -92,17 +98,8 @@ const NewChannelScreen = () => {
         />
       </View>
 
-      {/* Input field for channel name */}
-      <Text style = {styles.text}>Channel Name</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Channel Name"
-        value={channelName}
-        onChangeText={setChannelName}
-      />
-
       {/* Search bar and user list */}
-      <Text style = {styles.text}>Channel Members</Text>
+      <Text style = {styles.header}>Search:</Text>
       <TextInput
         style={styles.searchBar}
         placeholder="Search members"
@@ -132,6 +129,10 @@ const NewChannelScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  header:{
+    color: "white",
+    fontSize: 20,
+  },
   text: {
     color: 'white',
   },
