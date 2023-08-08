@@ -1,6 +1,5 @@
-import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
+import { Pressable, StyleSheet, Image } from 'react-native';
 import React from 'react';
-import Colors from '../constants/Colors';
 
 const Button = ({ title = "Button", onPress = () => {}, thing = "" }) => {
   console.log(thing);

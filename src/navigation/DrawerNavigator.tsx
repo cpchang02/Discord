@@ -179,7 +179,6 @@ const CustomDrawerContent = (props) => {
       )}
     </SafeAreaView>
   );
-     
 };
 
 

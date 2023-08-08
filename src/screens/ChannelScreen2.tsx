@@ -13,18 +13,12 @@ import { Avatar, ChannelAvatar, useChatContext } from "stream-chat-expo";
 //AWS imports:
 import { useAuthContext } from "../contexts/AuthContext";
 
-//components:
-import Button from "../components/Button";
-
 //pass in object channel prop
 const ChannelScreen2 = ({ channel }) => {
   //navigation, client, and userId hook
   const navigation = useNavigation();
   const { client } = useChatContext();
   const { userId } = useAuthContext();
-
-  //channel avatar image
-  const avatarURL = channel.data?.image; 
   //channel parent id
   const parentBranch = channel.data.parent;
   //subchannel list of a server
@@ -145,7 +139,6 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 20,
-    fontWeight: '400',
     color: "white",
     marginLeft: 9,
     fontWeight: "900",
@@ -167,8 +160,6 @@ const styles = StyleSheet.create({
   channelItem: {
     paddingVertical: 8,
     paddingHorizontal: 10,
-  
-  
   },
 });
 

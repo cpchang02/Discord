@@ -1,44 +1,46 @@
-import { Text, StyleSheet } from 'react-native'
-import React from 'react'
-import { useEffect, useState } from 'react'
+//react imports:
+import { useEffect, useState, React } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { FlatList } from 'react-native-gesture-handler'
-import UserListItem from '../components/UserListItem'
-import { Pressable } from 'react-native'
 
+//react-native imports:
+import { Text, StyleSheet, Pressable } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
+
+//component imports:
+import UserListItem from '../components/UserListItem'
+
+//Displays the Members of a channel and allows user to invite more members
 const ChannelMemberScreen = () => {
-  const [members, setMembers] = useState([]);
+  //navigation and route hooks:
   const navigation = useNavigation();
   const route = useRoute();
   const channel = route.params.channel;
-console.log("channel member screen");
+  console.log("channel member screen");
+
+  //members array
+  const [members, setMembers] = useState([]);
+  //fetch members from stream-chat server
   const fetchMembers = async() => {
     const response =  await channel.queryMembers({});
     setMembers(response.members);
-    console.log("display members", response);
+    console.log( channel.data.subChannelname,"members", response);
   }
-
+  //fetch channel members
   useEffect(()=> {
     fetchMembers();
   }, [channel]);
-  
+  //display
   return (
     <FlatList
     data = {members}
     keyExtractor = {(item) => item.user_id}
     renderItem = {({item}) => (
-      
-      <UserListItem user = {item.user} onPress={()=>{}} />
-
-    )}
+      <UserListItem user = {item.user} onPress={()=>{}} />)}
     ListHeaderComponent = {()=> 
-    <Pressable onPress = {()=>{
-      navigation.navigate("InviteMembers", { channel }); // Correct the way you pass the parameter
-
-    }}
-     style = {styles.buttonContainer}>
+    <Pressable 
+      onPress = {()=>{navigation.navigate("InviteMembers", { channel });}} //navigate to invite members screen and pass in the channel
+      style = {styles.buttonContainer}>
       <Text style = {styles.text}> Invite Members</Text>
-
     </Pressable>}
     />
     

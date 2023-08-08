@@ -9,8 +9,6 @@ import * as React from 'react';
 import { ActivityIndicator, ColorSchemeName } from 'react-native';
 
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/newChannelScreen';
-import TabTwoScreen from '../screens/ChannelScreen2';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import SignUpScreen from '../screens/SignUpScreen';

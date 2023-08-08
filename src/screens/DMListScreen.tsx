@@ -37,7 +37,6 @@ const DMListScreen = () => {
           <Pressable onPress = {onNewButtonPress} style = {styles.icon}>
             <AntDesign name="plus" size={35} color="white" />
           </Pressable>
-         
         </View>
       </View>
       <View>
